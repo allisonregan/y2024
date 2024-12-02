@@ -13,7 +13,6 @@ const isReportSafe = (report: string[]): boolean => {
     }
     let prevVal: number = Number(report[0]);
     let increasing: boolean = Number(report[1]) > prevVal;
-    let dampened = false;
 
     for (let i = 1; i < report.length; i++) {
         const level = Number(report[i]);
@@ -33,7 +32,6 @@ const getNumSafeReports = (filename: string, useDampener: boolean) => {
         if (isReportSafe(report)) {
             sum++;
         } else if (useDampener) {
-            // for each level, see if removing works
             if (report.some((_, i) => isReportSafe([
                 ...report.slice(0, i),
                 ...report.slice(i + 1)
