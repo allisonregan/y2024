@@ -4,8 +4,7 @@
   "description": "advent of code 2024",
   "main": "index.js",
   "scripts": {
-    "d01": "npx tsx d01/src.ts",
-    "d02": "npx tsx d02/src.ts",
+    "start": "npx tsx index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",

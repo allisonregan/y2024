@@ -2,7 +2,7 @@ import _ from 'lodash';
 import * as fs from 'fs';
 
 const generateListsFromFile = (fileName: string): [number[], number[]] => {
-    const file = fs.readFileSync(`d01/${fileName}`,'utf8');
+    const file = fs.readFileSync(fileName,'utf8');
     const lines = file.split('\n');
     const list1: number[] = [];
     const list2: number[] = [];
@@ -15,7 +15,7 @@ const generateListsFromFile = (fileName: string): [number[], number[]] => {
 }
 
 const generateMapsFromFile = (fileName: string): [Record<string, number>, Record<string, number>] => {
-    const file = fs.readFileSync(`d01/${fileName}`,'utf8');
+    const file = fs.readFileSync(fileName,'utf8');
     const lines = file.split('\n');
     const record1: Record<string, number> = {};
     const record2: Record<string, number> = {};
