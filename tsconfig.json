@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "ES2020", // or ESNext, ES2015, ES2020
+        "esModuleInterop": true
+    },
+    "ts-node": {
+        // Tell ts-node CLI to install the --loader automatically
+        "esm": true
+    },
+    "include": ["**/*.ts"],
+}

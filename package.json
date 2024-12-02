@@ -1,0 +1,23 @@
+{
+  "name": "y2024",
+  "version": "1.0.0",
+  "description": "advent of code 2024",
+  "main": "index.js",
+  "scripts": {
+    "d01": "npx tsx d01/src.ts",
+    "d02": "npx tsx d02/src.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "allison regan",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.13",
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2"
+  }
+}
