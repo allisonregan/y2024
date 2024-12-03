@@ -32,10 +32,7 @@ const getNumSafeReports = (filename: string, useDampener: boolean) => {
         if (isReportSafe(report)) {
             sum++;
         } else if (useDampener) {
-            if (report.some((_, i) => isReportSafe([
-                ...report.slice(0, i),
-                ...report.slice(i + 1)
-            ]))) {
+            if (report.some((_, i) => isReportSafe([...report.slice(0, i), ...report.slice(i + 1)]))) {
                 sum++;
             }
         }
