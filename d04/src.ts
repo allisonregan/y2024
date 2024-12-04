@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-const XMAS = ['X', 'M', 'A', 'S'];
+const XMAS = 'XMAS';
 
 const getGrid = (fileName: string): string[][] => {
     const file = fs.readFileSync(fileName,'utf8');
@@ -11,30 +11,18 @@ const getNumXmas = (grid: string[][]) => {
     let count = 0;
     grid.forEach((line, i) => line.forEach((c, j) => {
         if (c === XMAS[0]) {
-            if (grid[i - 1]?.[j] === XMAS[1] && grid[i - 2]?.[j] === XMAS[2] && grid[i - 3]?.[j] === XMAS[3]) {
-                count++;
-            }
-            if (grid[i + 1]?.[j] === XMAS[1] && grid[i + 2]?.[j] === XMAS[2] && grid[i + 3]?.[j] === XMAS[3]) {
-                count++;
-            }
-            if (grid[i][j - 1] === XMAS[1] && grid[i][j - 2] === XMAS[2] && grid[i][j - 3] === XMAS[3]) {
-                count++;
-            }
-            if (grid[i][j + 1] === XMAS[1] && grid[i][j + 2] === XMAS[2] && grid[i][j + 3] === XMAS[3]) {
-                count++;
-            }
-            if (grid[i - 1]?.[j - 1] === XMAS[1] && grid[i - 2]?.[j - 2] === XMAS[2] && grid[i - 3]?.[j - 3] === XMAS[3]) {
-                count++;
-            }
-            if (grid[i + 1]?.[j - 1] === XMAS[1] && grid[i + 2]?.[j - 2] === XMAS[2] && grid[i + 3]?.[j - 3] === XMAS[3]) {
-                count++;
-            }
-            if (grid[i - 1]?.[j + 1] === XMAS[1] && grid[i - 2]?.[j + 2] === XMAS[2] && grid[i - 3]?.[j + 3] === XMAS[3]) {
-                count++;
-            }
-            if (grid[i + 1]?.[j + 1] === XMAS[1] && grid[i + 2]?.[j + 2] === XMAS[2] && grid[i + 3]?.[j + 3] === XMAS[3]) {
-                count++;
-            }
+            const possibleXmases = [
+                `${c}${grid[i - 1]?.[j]}${grid[i - 2]?.[j]}${grid[i - 3]?.[j]}`,
+                `${c}${grid[i + 1]?.[j]}${grid[i + 2]?.[j]}${grid[i + 3]?.[j]}`,
+                `${c}${grid[i][j - 1]}${grid[i][j - 2]}${grid[i][j - 3]}`,
+                `${c}${grid[i][j + 1]}${grid[i][j + 2]}${grid[i][j + 3]}`,
+                `${c}${grid[i - 1]?.[j - 1]}${grid[i - 2]?.[j - 2]}${grid[i - 3]?.[j - 3]}`,
+                `${c}${grid[i - 1]?.[j + 1]}${grid[i - 2]?.[j + 2]}${grid[i - 3]?.[j + 3]}`,
+                `${c}${grid[i + 1]?.[j - 1]}${grid[i + 2]?.[j - 2]}${grid[i + 3]?.[j - 3]}`,
+                `${c}${grid[i + 1]?.[j + 1]}${grid[i + 2]?.[j + 2]}${grid[i + 3]?.[j + 3]}`,
+            ];
+            const xmases = possibleXmases.filter((val) => val === XMAS);
+            count += xmases.length;
         }
     }));
     return count;
