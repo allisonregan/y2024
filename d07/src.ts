@@ -33,8 +33,8 @@ const performOperation = (operand1: number, operand2: number, operator: Operator
 
 const isEquationValid = ([result, operands]: Equation): boolean=> {
     const stack = [{
-        currResult: 0,
-        remainingOperands: operands,
+        currResult: operands[0],
+        remainingOperands: operands.slice(1),
     }];
 
     while (stack.length) {
