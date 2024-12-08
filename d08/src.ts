@@ -1,13 +1,6 @@
 import * as fs from 'fs';
 import _ from 'lodash';
-
-type Coordinate = {
-    x: number;
-    y: number;
-}
-
-const coorToString = ({ x, y }: Coordinate) => `${x},${y}`;
-
+import { Coordinate, CoordinateSet } from './coordinate';
 
 const getGrid = (fileName: string) => {
     const file = fs.readFileSync(fileName,'utf8');
@@ -29,33 +22,33 @@ const getFreqMap = (grid: string[][]) => {
 
 // Part 1 only did this once for each, rather than the while loop
 const getAntinodeLocations = ({ x: x1, y: y1 }: Coordinate, { x: x2, y: y2 }: Coordinate, maxX: number, maxY: number): Coordinate[] => {
+    const antinodeLocs: Coordinate[] = [];
     const dx = x1 - x2;
     const dy = y1 - y2;
-    const antinodeLocs: Coordinate[] = [];
-    let currX = x1;
-    let currY = y1;
-    while (currX < maxX && currY < maxY && currX >= 0 && currY >= 0) {
-        antinodeLocs.push({ x: currX, y: currY });
-        currX += dx;
-        currY += dy;
+
+    let currCoor = { x: x1, y: y1 };
+    while (currCoor.x < maxX && currCoor.y < maxY && currCoor.x >= 0 && currCoor.y >= 0) {
+        antinodeLocs.push({ ...currCoor });
+        currCoor.x += dx;
+        currCoor.y += dy;
     }
-    currX = x1;
-    currY = y1;
-    while (currX < maxX && currY < maxY && currX >= 0 && currY >= 0) {
-        antinodeLocs.push({ x: currX, y: currY });
-        currX -= dx;
-        currY -= dy;
+
+    currCoor = { x: x1, y: y1 };
+    while (currCoor.x < maxX && currCoor.y < maxY && currCoor.x >= 0 && currCoor.y >= 0) {
+        antinodeLocs.push({ ...currCoor });
+        currCoor.x -= dx;
+        currCoor.y -= dy;
     }
     return antinodeLocs;
 }
 
-const getPossibleAntinodes = (freqMap: Record<string, Coordinate[]>, maxX: number, maxY: number): Coordinate[] => {
-    const antinodes: Coordinate[] = [];
+const getPossibleAntinodes = (freqMap: Record<string, Coordinate[]>, maxX: number, maxY: number): CoordinateSet => {
+    const antinodes = new CoordinateSet();
     Object.values(freqMap).forEach((coors) => {
-        let seenCoors = [];
+        const seenCoors = [];
         coors.forEach((coor) => {
             seenCoors.forEach((seenCoor) => {
-                antinodes.push(...getAntinodeLocations(coor, seenCoor, maxX, maxY));
+                antinodes.addAll(getAntinodeLocations(coor, seenCoor, maxX, maxY));
             })
             seenCoors.push(coor);
         })
@@ -63,16 +56,9 @@ const getPossibleAntinodes = (freqMap: Record<string, Coordinate[]>, maxX: numbe
     return antinodes;
 }
 
-const getAntinodeCount = (grid: string[][], possibleCoor: Coordinate[]) => {
-    let count = 0;
-    const seenCoor = new Set<string>();
-    possibleCoor.forEach((coor) => {
-        if (grid[coor.x]?.[coor.y] && !seenCoor.has(coorToString(coor))) {
-            count++;
-            seenCoor.add(coorToString(coor));
-        }
-    })
-    return count;
+const getAntinodeCount = (grid: string[][], possibleCoor: CoordinateSet) => {
+    const validAntinodes = possibleCoor.filter((coor) => Boolean(grid[coor.x]?.[coor.y]))
+    return validAntinodes.size();
 }
 
 const countUniqueAntinodes = (grid: string[][]) => {
